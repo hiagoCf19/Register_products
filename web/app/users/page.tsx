@@ -189,6 +189,7 @@ const UsersPage = () => {
         </div>
       </div>
 
+      <Input type="file" />
 
 
     </>

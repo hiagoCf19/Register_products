@@ -2,21 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { METHODS } from "http";
 import { Loader2 } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 
-// {
-//   "id": 1,
-//     "name": "Example Product",
-//       "description": "This is an example product description.",
-//         "price": 99.99,
-//           "discount": 10.00,
-//             "quantity_in_stock": 50
-// }
-
-
+interface Validation {
+  field: string;
+  message: string;
+}
 export default function Home() {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -52,7 +45,9 @@ export default function Home() {
 
       } else {
         const error = await response.json();
-        console.error(error);
+        error.map((e: Validation) => {
+          toast.error(`O campo ${e.field} ${e.message}`)
+        })
       }
     } catch (error) {
       console.error("Error:", error);

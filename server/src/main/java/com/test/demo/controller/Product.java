@@ -2,6 +2,7 @@ package com.test.demo.controller;
 
 import com.test.demo.Service.ProductService;
 import com.test.demo.dto.ProductDataDTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ public class Product {
 
     @PostMapping("/add")
     @Transactional
-    public ResponseEntity postProduct(@RequestBody ProductDataDTO data){
+    public ResponseEntity postProduct(@Valid @RequestBody ProductDataDTO data){
         productService.createNewProduct(data);
         return ResponseEntity.ok().build();
     }

@@ -1,9 +1,12 @@
 package com.test.demo.dto;
 
+import com.test.demo.model.Products;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+
 import java.math.BigDecimal;
+import java.util.List;
 
 public record ProductDataDTO(
         Long id,
@@ -18,5 +21,8 @@ public record ProductDataDTO(
         @NotNull
         BigDecimal discount,
         @NotNull
-        int quantity_in_stock
-) { }
+        Integer quantity_in_stock
+) {
+
+
+}

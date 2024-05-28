@@ -2,14 +2,15 @@ package com.test.demo.controller;
 
 import com.test.demo.Service.ProductService;
 import com.test.demo.dto.ProductDataDTO;
+import com.test.demo.dto.ProductsList;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -19,9 +20,27 @@ public class Product {
 
     @PostMapping("/add")
     @Transactional
-    public ResponseEntity postProduct(@Valid @RequestBody ProductDataDTO data){
-        productService.createNewProduct(data);
-        return ResponseEntity.ok().build();
+    public ResponseEntity postProduct(@Valid @RequestBody ProductDataDTO data, UriComponentsBuilder uriComponentsBuilder){
+        var product= productService.createNewProduct(data);
+        var uri= uriComponentsBuilder.path("/products/{id}").buildAndExpand(product.getId()).toUri();
+        return ResponseEntity.created(uri).body(new ProductDataDTO(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getDiscount(), product.getQuantityInStock()));
     }
-
+    @GetMapping("/{id}")
+    public ResponseEntity getProductById(@PathVariable Long id){
+        var product= productService.getProductById(id);
+        return ResponseEntity.ok().body(product);
+    }
+    @GetMapping
+    public ResponseEntity getProducts(){
+        var products= productService.getAllProducts();
+        var list= products.stream().map((p)-> new ProductDataDTO(
+                p.getId(),
+                p.getName(),
+                p.getDescription(),
+                p.getPrice(),
+                p.getDiscount(),
+                p.getQuantityInStock()
+        )).collect(Collectors.toList());
+        return ResponseEntity.ok().body(new ProductsList(list));
+    }
 }

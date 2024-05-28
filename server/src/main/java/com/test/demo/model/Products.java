@@ -30,6 +30,6 @@ public class Products {
     private BigDecimal discount;
 
     @Column(nullable = false, name = "quantity_in_stock")
-    private int quantityInStock;
+    private Integer quantityInStock;
 
 }

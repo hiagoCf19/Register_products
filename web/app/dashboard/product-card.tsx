@@ -81,7 +81,7 @@ const ProductCard = ({ product }: ProductCartProps) => {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <Button onClick={() => setIsOpenDialogDelete(false)}>
-              a
+              Continuar
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

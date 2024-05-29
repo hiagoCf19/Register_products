@@ -1,37 +1,22 @@
 "use client"
+
 import { Button } from "@/components/ui/button";
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog"
+import { Ellipsis, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { Products, calculateProducTotalPrice, formatCurrency } from "../helpers/format-price";
+import ProductCard from "./product-card";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
 
-import { Ellipsis, Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-interface Products {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  discount: number;
-  quantity_in_stock: number;
-}
+
 interface DataApi {
   products: Products[]
 }
@@ -60,26 +45,27 @@ const DashboardPage = () => {
   }
 
   return (
-    <>
-      <Table>
+    <div className=" sm:pl-44">
+      <div className=" sm:w-[90%]">
 
-        <TableHeader>
-          <TableRow className="text-xs">
-            <TableHead >Código</TableHead>
-            <TableHead >Nome</TableHead>
-            <TableHead>Preço</TableHead>
-            <TableHead className="text-right">Estoque</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody className="[&::-webkit-scrollbar]:hidden">
-
-          {
-            data?.products.map((product) => (
+        <Table className="[&::-webkit-scrollbar]:hidden">
+          <TableHeader className="">
+            <TableRow className="text-xs sm:text-sm  ">
+              <TableHead className="text-zinc-50">Código</TableHead>
+              <TableHead className="text-zinc-50">Nome</TableHead>
+              <TableHead className="text-zinc-50">Preço final</TableHead>
+              <TableHead className="text-right sm:text-start text-zinc-50">Estoque</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className="[&::-webkit-scrollbar]:hidden">
+            {data?.products.map((product) => (
               <TableRow key={product.id} className="text-sm">
                 <TableCell className="font-medium pl-6">{product.id}</TableCell>
-                <TableCell>{product.name}</TableCell>
-                <TableCell className="">R$ {product.price},00</TableCell>
-                <TableCell className="text-right">{product.quantity_in_stock}</TableCell>
+                <TableCell className="text-muted-foreground max-w-[170px] px-0">{product.name}</TableCell>
+                <TableCell className="text-muted-foreground">{formatCurrency(calculateProducTotalPrice(product))}</TableCell>
+                <TableCell className="text-right sm:text-start text-muted-foreground">
+                  {product.quantity_in_stock} Unidades
+                </TableCell>
                 <TableCell className=" text-right">
                   <AlertDialog>
                     <AlertDialogTrigger>
@@ -87,32 +73,20 @@ const DashboardPage = () => {
                         <Ellipsis />
                       </Button>
                     </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>{product.name}</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          {product.description}
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Fechar</AlertDialogCancel>
-                        {/* <AlertDialogAction>Continue</AlertDialogAction> */}
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
+                    <ProductCard product={product} />
                   </AlertDialog>
-
-
                 </TableCell>
               </TableRow>
             ))}
-        </TableBody>
+          </TableBody>
+        </Table >
 
-      </Table >
-      <div className="flex justify-center py-5">
-
-        {isLoading && (<Loader2 className="animate-spin text-muted-foreground" />)}
+        <div className="flex justify-center py-5">
+          {isLoading && (<Loader2 className="animate-spin text-muted-foreground" />)}
+        </div>
       </div>
-    </>
+
+    </div>
 
 
   );

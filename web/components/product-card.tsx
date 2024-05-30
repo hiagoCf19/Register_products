@@ -7,7 +7,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { Products, calculateDiscount, calculateProducTotalPrice, formatCurrency } from "../helpers/format-price";
+import { Products, calculateDiscount, calculateProducTotalPrice, formatCurrency } from "../app/helpers/format-price";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Edit2, Trash } from "lucide-react";

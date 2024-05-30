@@ -1,100 +1,99 @@
 "use client"
+
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Loader2 } from "lucide-react";
-import { FormEvent, useState } from "react";
-import { toast } from "sonner";
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog"
+import { Ellipsis, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import ProductCard from "@/components/product-card";
+import { getData } from "./helpers/getData";
+import {
+  Products,
+  calculateProducTotalPrice,
+  formatCurrency
+} from "./helpers/format-price";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
-interface Validation {
-  field: string;
-  message: string;
+interface DataApi {
+  products: Products[]
 }
+// DELETE
+// const deletAPI = async (id: number) => {
+//   try {
+//     const response = await fetch(`http://localhost:8080/deleteUser/${id}`, {
+//       method: "DELETE",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     })
+//     if (response.ok) {
+//       toast("usuario excluido com sucesso!");
+//       getData();
+//     }
+//     else {
+//       const error = await response.json();
+//       toast.error(error.message);
+//     }
+//   } catch (error) {
+//     toast.error("Erro ao se conectar com a api")
+//   }
+// }
 export default function Home() {
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [price, setPrice] = useState('')
-  const [discount, setDiscount] = useState('')
-  const [quantity_in_stock, setQuantity_in_stock] = useState('')
-  const [loading, setLoading] = useState(false)
-  const createProduct = async () => {
-    const data = {
-      name: name,
-      description: description,
-      price: price,
-      discount: discount,
-      quantity_in_stock: quantity_in_stock
-    }
-    try {
-      setLoading(true)
-      const response = await fetch("http://localhost:8080/products/add",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-      if (response.ok) {
-        toast.success("Produto cadastrado com sucesso");
-        setName('')
-        setDescription('')
-        setPrice('')
-        setDiscount('')
-        setQuantity_in_stock('')
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState<DataApi>()
 
-      } else {
-        const error = await response.json();
-        error.map((e: Validation) => {
-          toast.error(`O campo ${e.field} ${e.message}`)
-        })
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setLoading(false)
-    }
-  }
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    createProduct();
-  }
+  useEffect(() => {
+    getData(setData, setIsLoading);
+  }, []);
+
   return (
-    <>
-      <form className="p-5 flex flex-col gap-3" onSubmit={handleSubmit}>
-        <label htmlFor="Produto">
-          Produto:
-          <Input className="my-2" value={name} onChange={(e) => setName(e.target.value)} />
-        </label>
-        <label htmlFor="">
-          Preço:
-          <Input className="my-2" value={price} onChange={(e) => setPrice(e.target.value)} />
-        </label>
-        <label htmlFor="">
-          Desconto:
-          <Input className="my-2" value={discount} onChange={(e) => setDiscount(e.target.value)} />
-        </label>
-        <label htmlFor="">
-          Quantidade em estoque:
-          <Input className="my-2" value={quantity_in_stock} onChange={(e) => setQuantity_in_stock(e.target.value)} />
-        </label>
-        <label htmlFor="" >
-          Descrição
-          <Textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="my-2"
-          />
-        </label>
-        <Button type="submit" disabled={loading}  >
-          {loading ?
-            <>
-              <Loader2 className="animate-spin mx-1" />
-              Processando...
-            </>
-            : "Enviar"}
-        </Button>
-      </form >
-    </>
-  );
+    <div className=" sm:pl-44">
+      <div className=" sm:w-[90%]">
+
+        <Table className="[&::-webkit-scrollbar]:hidden">
+          <TableHeader className="">
+            <TableRow className="text-xs sm:text-sm  ">
+              <TableHead className="text-zinc-50">Código</TableHead>
+              <TableHead className="text-zinc-50">Nome</TableHead>
+              <TableHead className="text-zinc-50">Preço final</TableHead>
+              <TableHead className="text-right sm:text-start text-zinc-50">Estoque</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className="[&::-webkit-scrollbar]:hidden">
+            {data?.products.map((product) => (
+              <TableRow key={product.id} className="text-sm">
+                <TableCell className="font-medium pl-6">{product.id}</TableCell>
+                <TableCell className="text-muted-foreground max-w-[170px] px-0">{product.name}</TableCell>
+                <TableCell className="text-muted-foreground">{formatCurrency(calculateProducTotalPrice(product))}</TableCell>
+                <TableCell className="text-right sm:text-start text-muted-foreground">
+                  {product.quantity_in_stock} Unidades
+                </TableCell>
+                <TableCell className=" text-right">
+                  <AlertDialog>
+                    <AlertDialogTrigger>
+                      <Button size='icon' className="size-8" variant={'outline'} >
+                        <Ellipsis />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <ProductCard product={product} />
+                  </AlertDialog>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table >
+
+        <div className="flex justify-center py-5">
+          {isLoading && (<Loader2 className="animate-spin text-muted-foreground" />)}
+        </div>
+      </div>
+
+    </div>
+  )
 }

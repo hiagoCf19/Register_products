@@ -49,7 +49,7 @@ export default function Home() {
   const [data, setData] = useState<DataApi>()
 
   useEffect(() => {
-    getData(setData, setIsLoading);
+    getData("products", setData, setIsLoading);
   }, []);
 
   return (

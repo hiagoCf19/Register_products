@@ -70,7 +70,7 @@ const RegisterNewProduct = () => {
         </label>
         <label>
           Preço:
-          <Input type="number" className="my-2" value={price} onChange={(e) => setPrice(e.target.value)} />
+          <Input className="my-2" value={price} onChange={(e) => setPrice(e.target.value)} />
         </label>
         <label>
           Porcentagem de desconto:

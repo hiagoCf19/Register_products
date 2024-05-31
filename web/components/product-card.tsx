@@ -11,13 +11,23 @@ import { Products, calculateDiscount, calculateProducTotalPrice, formatCurrency 
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Edit2, Trash } from "lucide-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { AlertDialog } from "@radix-ui/react-alert-dialog";
+import { toast } from "sonner";
+import { deletAPI } from "@/app/helpers/deleteData";
+import { DataApi } from "@/app/helpers/getData";
 interface ProductCartProps {
-  product: Products
+  product: Products;
+  setData: Dispatch<SetStateAction<DataApi | undefined>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
-const ProductCard = ({ product }: ProductCartProps) => {
+const ProductCard = ({ product, setData, setIsLoading }: ProductCartProps) => {
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false)
+
+  const handleDeleteClick = () => {
+    setIsOpenDialogDelete(false)
+    deletAPI(product.id, setData, setIsLoading)
+  }
   return (
     <>
       <AlertDialogContent>
@@ -70,17 +80,22 @@ const ProductCard = ({ product }: ProductCartProps) => {
         </AlertDialogFooter>
       </AlertDialogContent>
 
-      <AlertDialog open={isOpenDialogDelete} onOpenChange={setIsOpenDialogDelete}>
+      <AlertDialog
+        open={isOpenDialogDelete}
+        onOpenChange={setIsOpenDialogDelete}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Cuidado !</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta ação é irreversível, você deseja mesmo <strong className="text-primary">excluir</strong> este produto? Confirme para continuar ou cancele para retornar
+              Esta ação é irreversível, você deseja mesmo
+              <strong className="text-primary">excluir</strong>
+              este produto? Confirme para continuar ou cancele para retornar
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <Button onClick={() => setIsOpenDialogDelete(false)}>
+            <Button onClick={handleDeleteClick}>
               Continuar
             </Button>
           </AlertDialogFooter>

@@ -5,7 +5,7 @@ import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Ellipsis, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/product-card";
-import { getData } from "./helpers/getData";
+import { DataApi, getData } from "./helpers/getData";
 import {
   Products,
   calculateProducTotalPrice,
@@ -19,31 +19,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { deletAPI } from "./helpers/deleteData";
 
-interface DataApi {
-  products: Products[]
-}
-// DELETE
-// const deletAPI = async (id: number) => {
-//   try {
-//     const response = await fetch(`http://localhost:8080/deleteUser/${id}`, {
-//       method: "DELETE",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     })
-//     if (response.ok) {
-//       toast("usuario excluido com sucesso!");
-//       getData();
-//     }
-//     else {
-//       const error = await response.json();
-//       toast.error(error.message);
-//     }
-//   } catch (error) {
-//     toast.error("Erro ao se conectar com a api")
-//   }
-// }
+
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<DataApi>()
@@ -81,7 +60,11 @@ export default function Home() {
                         <Ellipsis />
                       </Button>
                     </AlertDialogTrigger>
-                    <ProductCard product={product} />
+                    <ProductCard
+                      product={product}
+                      setData={setData}
+                      setIsLoading={setIsLoading}
+                    />
                   </AlertDialog>
                 </TableCell>
               </TableRow>

@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 import { Products } from "./format-price";
-interface DataApi {
+export interface DataApi {
   products: Products[];
 }
 export async function getData(

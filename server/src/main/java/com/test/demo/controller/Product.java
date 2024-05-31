@@ -43,4 +43,10 @@ public class Product {
         )).collect(Collectors.toList());
         return ResponseEntity.ok().body(new ProductsList(list));
     }
+    @DeleteMapping("/delete/{id}")
+    @Transactional
+    public ResponseEntity deleteProduct(@PathVariable Long id){
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
+    }
 }

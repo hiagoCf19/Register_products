@@ -30,7 +30,12 @@ public class ProductService {
     }
 
     public Products getProductById(Long id){
-        return productRepository.findById(id).orElseThrow(()-> new RuntimeException("O Produto buscado não existe"));
+        return productRepository.findById(id).orElseThrow(()-> new RuntimeException("Ops! O produto que você está buscando não existe"));
     }
+    public void deleteProduct(Long id){
+        var product= getProductById(id);
+        productRepository.delete(product);
+    }
+
 
 }

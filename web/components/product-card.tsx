@@ -10,7 +10,7 @@ import {
 import { Products, calculateDiscount, calculateProducTotalPrice, formatCurrency } from "../app/helpers/format-price";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { Edit2, Trash } from "lucide-react";
+import { Edit2, Loader2, Trash } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { AlertDialog } from "@radix-ui/react-alert-dialog";
 import { toast } from "sonner";
@@ -18,16 +18,19 @@ import { deletAPI } from "@/app/helpers/deleteData";
 import { DataApi } from "@/app/helpers/getData";
 interface ProductCartProps {
   product: Products;
+  loading: boolean
   setData: Dispatch<SetStateAction<DataApi | undefined>>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
-const ProductCard = ({ product, setData, setIsLoading }: ProductCartProps) => {
+const ProductCard = ({ product, loading, setData, setIsLoading }: ProductCartProps) => {
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false)
 
   const handleDeleteClick = () => {
-    setIsOpenDialogDelete(false)
-    deletAPI(product.id, setData, setIsLoading)
+
+    deletAPI(product.id, setData, setIsLoading, setIsOpenDialogDelete)
+
   }
+  console.log(loading)
   return (
     <>
       <AlertDialogContent>
@@ -89,14 +92,14 @@ const ProductCard = ({ product, setData, setIsLoading }: ProductCartProps) => {
             <AlertDialogTitle>Cuidado !</AlertDialogTitle>
             <AlertDialogDescription>
               Esta ação é irreversível, você deseja mesmo
-              <strong className="text-primary">excluir</strong>
+              <strong className="text-primary"> excluir </strong>
               este produto? Confirme para continuar ou cancele para retornar
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <Button onClick={handleDeleteClick}>
-              Continuar
+            <Button onClick={handleDeleteClick} disabled={loading}>
+              {loading ? <Loader2 className="animate-spin" /> : 'Continuar'}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

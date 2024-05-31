@@ -22,12 +22,13 @@ const RegisterNewProduct = () => {
     const data = {
       name: name,
       description: description,
-      price: price,
-      discount: discount,
+      price: price.replace(",", "."),
+      discount: discount.replace("%", ""),
       quantity_in_stock: quantity_in_stock
     }
     try {
       setLoading(true)
+
       const response = await fetch("http://localhost:8080/products/add",
         {
           method: "POST",
@@ -67,19 +68,19 @@ const RegisterNewProduct = () => {
           Produto:
           <Input className="my-2" value={name} onChange={(e) => setName(e.target.value)} />
         </label>
-        <label htmlFor="">
+        <label>
           Preço:
-          <Input className="my-2" value={price} onChange={(e) => setPrice(e.target.value)} />
+          <Input type="number" className="my-2" value={price} onChange={(e) => setPrice(e.target.value)} />
         </label>
-        <label htmlFor="">
-          Desconto:
+        <label>
+          Porcentagem de desconto:
           <Input className="my-2" value={discount} onChange={(e) => setDiscount(e.target.value)} />
         </label>
-        <label htmlFor="">
+        <label>
           Quantidade em estoque:
           <Input className="my-2" value={quantity_in_stock} onChange={(e) => setQuantity_in_stock(e.target.value)} />
         </label>
-        <label htmlFor="" >
+        <label >
           Descrição
           <Textarea
             value={description}

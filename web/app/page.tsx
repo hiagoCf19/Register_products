@@ -20,6 +20,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { deletAPI } from "./helpers/deleteData";
+import Link from "next/link";
+import { Input } from "@/components/ui/input";
 
 
 
@@ -56,11 +58,12 @@ export default function Home() {
                 <TableCell className=" text-right">
                   <AlertDialog>
                     <AlertDialogTrigger>
-                      <Button size='icon' className="size-8" variant={'outline'} >
+                      <Button size='icon' className="size-8" variant={'outline'} asChild >
                         <Ellipsis />
                       </Button>
                     </AlertDialogTrigger>
                     <ProductCard
+                      loading={isLoading}
                       product={product}
                       setData={setData}
                       setIsLoading={setIsLoading}
@@ -71,10 +74,17 @@ export default function Home() {
             ))}
           </TableBody>
         </Table >
+        <Button variant={"outline"} >
+          <Link href={"/register"} >
+            Cadastrar novo produto
+          </Link>
 
+
+        </Button>
         <div className="flex justify-center py-5">
           {isLoading && (<Loader2 className="animate-spin text-muted-foreground" />)}
         </div>
+
       </div>
 
     </div>

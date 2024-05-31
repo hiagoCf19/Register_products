@@ -5,9 +5,11 @@ import { Dispatch, SetStateAction } from "react";
 export const deletAPI = async (
   id: number,
   setData: Dispatch<SetStateAction<DataApi | undefined>>,
-  setIsLoading: Dispatch<SetStateAction<boolean>>
+  setIsLoading: Dispatch<SetStateAction<boolean>>,
+  setIsOpenDialogDelete: Dispatch<SetStateAction<boolean>>
 ) => {
   try {
+    setIsLoading(true);
     const response = await fetch(
       `http://localhost:8080/products/delete/${id}`,
       {
@@ -23,8 +25,10 @@ export const deletAPI = async (
     } else {
       const error = await response.json();
       toast.error(error.message);
+      setIsLoading(false);
     }
   } catch (error) {
+    setIsLoading(false);
     toast.error("Ops! houve um erro de conexão.");
   }
 };

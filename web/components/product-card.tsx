@@ -57,7 +57,7 @@ const ProductCard = ({ product, setData, setIsLoading }: ProductCartProps) => {
               <div className="flex justify-end px-2 ">
                 <div className="flex flex-col gap-2 text-end">
                   <p>Preço original: {formatCurrency(product.price)}</p>
-                  <p>Desconto disponível: {formatCurrency(calculateDiscount(product))}</p>
+                  <p>Desconto disponível: {product.discount} %</p>
                   <p>Preço final: {formatCurrency(calculateProducTotalPrice(product))}</p>
 
                 </div>

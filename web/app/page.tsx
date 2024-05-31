@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog"
-import { Ellipsis, Loader2 } from "lucide-react";
+import { Ellipsis, Loader2, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/product-card";
 import { DataApi, getData } from "./helpers/getData";
@@ -36,6 +36,15 @@ export default function Home() {
   return (
     <div className=" sm:pl-44">
       <div className=" sm:w-[90%]">
+        <div className="flex justify-between pt-4">
+          <h1 className="font-semibold text-xl">Produtos:</h1>
+          <div className="flex items-center gap-2">
+            <Input type="search" className="focus-visible:ring-1 p-4" placeholder="Buscar produto" />
+            <Button variant={"destructive"} className="p-2">
+              <Search size={22} />
+            </Button>
+          </div>
+        </div>
 
         <Table className="[&::-webkit-scrollbar]:hidden">
           <TableHeader className="">
@@ -58,7 +67,7 @@ export default function Home() {
                 <TableCell className=" text-right">
                   <AlertDialog>
                     <AlertDialogTrigger>
-                      <Button size='icon' className="size-8" variant={'outline'} asChild >
+                      <Button size='icon' className="size-9 p-2" variant={'outline'} asChild >
                         <Ellipsis />
                       </Button>
                     </AlertDialogTrigger>
@@ -74,17 +83,15 @@ export default function Home() {
             ))}
           </TableBody>
         </Table >
-        <Button variant={"outline"} >
-          <Link href={"/register"} >
-            Cadastrar novo produto
-          </Link>
 
-
-        </Button>
         <div className="flex justify-center py-5">
           {isLoading && (<Loader2 className="animate-spin text-muted-foreground" />)}
         </div>
-
+        <Button variant={"link"} >
+          <Link href={"/register"} >
+            Cadastrar novo produto
+          </Link>
+        </Button>
       </div>
 
     </div>

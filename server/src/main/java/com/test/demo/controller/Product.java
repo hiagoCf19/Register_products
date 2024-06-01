@@ -3,6 +3,7 @@ package com.test.demo.controller;
 import com.test.demo.Service.ProductService;
 import com.test.demo.dto.ProductDataDTO;
 import com.test.demo.dto.ProductsList;
+import com.test.demo.dto.UpdateProductDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -49,4 +50,12 @@ public class Product {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
+    @PutMapping("/edit")
+    @Transactional
+    public ResponseEntity putProductDetails(@RequestBody @Valid UpdateProductDTO data){
+        productService.updateDetails(data);
+        return ResponseEntity.noContent().build();
+
+    }
+
 }

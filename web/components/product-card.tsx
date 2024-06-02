@@ -29,7 +29,7 @@ interface ProductCartProps {
 }
 const ProductCard = ({ product, loading, setData, setIsLoading }: ProductCartProps) => {
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false)
-
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const handleDeleteClick = () => {
 
     deletAPI(product.id, setData, setIsLoading, setIsOpenDialogDelete)
@@ -84,11 +84,18 @@ const ProductCard = ({ product, loading, setData, setIsLoading }: ProductCartPro
         <AlertDialogFooter className="flex sm:justify-between  ">
           <div className="space-x-4">
             <Button size={'icon'} variant={"outline"}>
-              <Dialog>
-                <DialogTrigger asChild>
+              <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+                <Button size={'icon'} variant={'outline'} onClick={() => setIsEditDialogOpen(true)}>
                   <Edit2 size={18} />
-                </DialogTrigger>
-                <DialogDemo />
+                </Button>
+                <DialogDemo
+                  loading={loading}
+                  product={product}
+                  setData={setData}
+                  setIsLoading={setIsLoading}
+
+                  setIsEditDialogOpen={setIsEditDialogOpen}
+                />
               </Dialog>
             </Button>
             <Button

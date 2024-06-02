@@ -8,25 +8,77 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { FormEvent, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { Textarea } from "./ui/textarea";
+import { toast } from "sonner";
+import { DataApi, getData } from "@/app/helpers/getData";
+import { Products } from "@/app/helpers/format-price";
+import { Loader2 } from "lucide-react";
+interface DialogDemoProps {
+  product: Products;
+  loading: boolean
+  setData: Dispatch<SetStateAction<DataApi | undefined>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  setIsEditDialogOpen: Dispatch<SetStateAction<boolean>>;
+}
+const DialogDemo = ({ product, loading, setData, setIsLoading, setIsEditDialogOpen }: DialogDemoProps) => {
 
-const DialogDemo = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [discount, setDiscount] = useState("");
   const [quantity_in_stock, setQuantity_in_stock] = useState("");
+
+
+  interface Validation {
+    field: string;
+    message: string;
+  }
+  const editProduct = async () => {
+    const data = {
+      id: product.id,
+      name: name,
+      description: description,
+      price: price.replace(",", "."),
+      discount: discount.replace("%", ""),
+      quantity_in_stock: quantity_in_stock
+    }
+    try {
+      setIsLoading(true)
+      const response = await fetch("http://localhost:8080/products/edit",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+      if (response.ok) {
+        toast.success("Informações modificadas com sucesso");
+        setName('')
+        setDescription('')
+        setPrice('')
+        setDiscount('')
+        setQuantity_in_stock('')
+        setIsEditDialogOpen(false)
+        getData("products", setData, setIsLoading);
+
+      } else {
+        const error = await response.json();
+        error.map((e: Validation) => {
+          toast.error(`O campo ${e.field} ${e.message}`)
+        })
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false)
+    }
+  }
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // const data = {
-    //   name: name,
-    //   description: description,
-    //   price: price.replace(",", "."),
-    //   discount: discount.replace("%", ""),
-    //   quantity_in_stock: quantity_in_stock
-    // }
-    // console.log(JSON.stringify(data))
+    editProduct();
+
   }
   return (
     <DialogContent className="sm:max-w-[425px]">
@@ -70,7 +122,12 @@ const DialogDemo = () => {
           <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
         </div>
         <div className=" pt-5 -mb-3 flex justify-end">
-          <Button type="submit">Salvar</Button>
+          <Button type="submit" disabled={loading} className="flex gap-2">
+            Salvar
+            {loading && (
+              <Loader2 className="animate-spin" size={16} />
+            )}
+          </Button>
         </div>
       </form>
 

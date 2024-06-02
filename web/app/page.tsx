@@ -19,11 +19,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-
 import { Input } from "@/components/ui/input";
 import RegisterProduct from "@/components/register-product-dialog";
-
-
 
 export default function Home() {
   const [loading, setLoading] = useState(true);

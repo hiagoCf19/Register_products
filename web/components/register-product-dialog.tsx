@@ -76,7 +76,6 @@ const RegisterProduct = ({ setData, setIsLoading }: RegisterProductProps) => {
 
   }
 
-
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     createProduct();
@@ -87,9 +86,9 @@ const RegisterProduct = ({ setData, setIsLoading }: RegisterProductProps) => {
       <Button variant="secondary" onClick={() => setRegisterDialogOpen(true)}>Registrar novo produto</Button>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>Registrar produto</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+            Registre um novo produto inserindo as informações nos campos predefinidos a baixo.
           </DialogDescription>
         </DialogHeader>
         <form className="grid gap-4 py-4" onSubmit={handleSubmit}>
@@ -97,33 +96,58 @@ const RegisterProduct = ({ setData, setIsLoading }: RegisterProductProps) => {
             <label className="text-sm" htmlFor="name" >
               Nome
             </label>
-            <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
+            <Input
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Nome do produto"
+            />
           </div>
           <div className="flex gap-2">
             <div className="space-y-2">
               <label className="text-sm" htmlFor="price" >
                 Preço
               </label>
-              <Input id="price" value={price} onChange={(e) => setPrice(e.target.value)} />
+              <Input
+                id="price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder=" ex: 299.99"
+              />
             </div>
             <div className="space-y-2">
               <label className="text-sm" htmlFor="discount">
                 Desconto (%)
               </label>
-              <Input id="discount" value={discount} onChange={(e) => setDiscount(e.target.value)} />
+              <Input
+                id="discount"
+                value={discount}
+                onChange={(e) => setDiscount(e.target.value)}
+                placeholder=" ex: 15%"
+              />
             </div>
           </div>
           <div className="flex flex-col gap-2">
             <label className="text-sm" htmlFor="quantity_in_stock" >
               Quantidade em estoque
             </label>
-            <Input id="quantity_in_stock" value={quantity_in_stock} onChange={(e) => setQuantity_in_stock(e.target.value)} />
+            <Input
+              id="quantity_in_stock"
+              value={quantity_in_stock}
+              onChange={(e) => setQuantity_in_stock(e.target.value)}
+              placeholder="Quantidade disponível para venda no estoque"
+            />
           </div>
           <div className="flex flex-col gap-2">
             <label className="text-sm" htmlFor="description" >
               Descrição
             </label>
-            <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+            <Textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Descreva o produto..."
+            />
           </div>
           <div className=" pt-5 -mb-3 flex justify-end">
             <Button type="submit" disabled={loading} className="flex gap-2">

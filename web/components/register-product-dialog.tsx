@@ -2,7 +2,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
@@ -13,7 +12,6 @@ import { Loader2 } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import { toast } from "sonner";
 import { DataApi, getData } from "@/app/helpers/getData";
-import { Products } from "@/app/helpers/format-price";
 
 interface Validation {
   field: string;

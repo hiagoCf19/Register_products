@@ -55,7 +55,6 @@ public class Product {
     public ResponseEntity putProductDetails(@RequestBody @Valid UpdateProductDTO data){
         productService.updateDetails(data);
         return ResponseEntity.noContent().build();
-
     }
 
 }

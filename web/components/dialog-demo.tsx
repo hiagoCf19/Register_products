@@ -36,8 +36,8 @@ const DialogDemo = ({ product, loading, setData, setIsLoading, setIsEditDialogOp
   const editProduct = async () => {
     const data = {
       id: product.id,
-      name: name,
-      description: description,
+      name: name === "" ? null : name,
+      description: description === "" ? null : description,
       price: price.replace(",", "."),
       discount: discount.replace("%", ""),
       quantity_in_stock: quantity_in_stock

@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import ProductCard from "@/components/product-card";
 import { DataApi, getData } from "./helpers/getData";
 import {
-  Products,
   calculateProducTotalPrice,
   formatCurrency
 } from "./helpers/format-price";
@@ -19,18 +18,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { deletAPI } from "./helpers/deleteData";
-import Link from "next/link";
+
+
 import { Input } from "@/components/ui/input";
+import RegisterProduct from "@/components/register-product-dialog";
 
 
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState<DataApi>()
 
   useEffect(() => {
-    getData("products", setData, setIsLoading);
+    getData("products", setData, setLoading);
   }, []);
 
   return (
@@ -45,7 +45,6 @@ export default function Home() {
             </Button>
           </div>
         </div>
-
         <Table className="[&::-webkit-scrollbar]:hidden">
           <TableHeader className="">
             <TableRow className="text-xs sm:text-sm  ">
@@ -72,10 +71,10 @@ export default function Home() {
                       </Button>
                     </AlertDialogTrigger>
                     <ProductCard
-                      loading={isLoading}
+                      loading={loading}
                       product={product}
                       setData={setData}
-                      setIsLoading={setIsLoading}
+                      setIsLoading={setLoading}
                     />
                   </AlertDialog>
                 </TableCell>
@@ -83,15 +82,10 @@ export default function Home() {
             ))}
           </TableBody>
         </Table >
-
         <div className="flex justify-center py-5">
-          {isLoading && (<Loader2 className="animate-spin text-muted-foreground" />)}
+          {loading && (<Loader2 className="animate-spin text-muted-foreground" />)}
         </div>
-        <Button variant={"link"} >
-          <Link href={"/register"} >
-            Cadastrar novo produto
-          </Link>
-        </Button>
+        <RegisterProduct setIsLoading={setLoading} setData={setData} />
       </div>
 
     </div>

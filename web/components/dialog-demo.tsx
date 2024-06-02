@@ -29,7 +29,6 @@ const DialogDemo = ({ product, loading, setData, setIsLoading, setIsEditDialogOp
   const [discount, setDiscount] = useState("");
   const [quantity_in_stock, setQuantity_in_stock] = useState("");
 
-
   interface Validation {
     field: string;
     message: string;

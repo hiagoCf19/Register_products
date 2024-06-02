@@ -42,6 +42,10 @@ const DialogDemo = ({ product, loading, setData, setIsLoading, setIsEditDialogOp
       discount: discount.replace("%", ""),
       quantity_in_stock: quantity_in_stock
     }
+    if (data.name === null && data.description === null && data.price === '' && data.discount === '' && data.quantity_in_stock === '') {
+      toast.error("Nenhuma informação foi alterada")
+      return;
+    }
     try {
       setIsLoading(true)
       const response = await fetch("http://localhost:8080/products/edit",

@@ -7,15 +7,20 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { Products, calculateDiscount, calculateProducTotalPrice, formatCurrency } from "../app/helpers/format-price";
+import {
+  Dialog,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+import { Products, calculateProducTotalPrice, formatCurrency } from "../app/helpers/format-price";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Edit2, Loader2, Trash } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { AlertDialog } from "@radix-ui/react-alert-dialog";
-import { toast } from "sonner";
 import { deletAPI } from "@/app/helpers/deleteData";
 import { DataApi } from "@/app/helpers/getData";
+import DialogDemo from "./dialog-demo";
 interface ProductCartProps {
   product: Products;
   loading: boolean
@@ -30,56 +35,71 @@ const ProductCard = ({ product, loading, setData, setIsLoading }: ProductCartPro
     deletAPI(product.id, setData, setIsLoading, setIsOpenDialogDelete)
 
   }
-  console.log(loading)
   return (
     <>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Informações do produto</AlertDialogTitle>
-          <AlertDialogDescription className="space-y-2">
-
-            <h1>
-              <strong className=" text-zinc-50">
-                Produto:{" "}
-              </strong>
-              {product.name}
-            </h1>
-            <div className="space-y-2">
-              <p>
+          <AlertDialogDescription asChild >
+            <ul className="space-y-2">
+              <li>
+                <strong className=" text-zinc-50">
+                  Produto:{" "}
+                </strong>
+                {product.name}
+              </li>
+              <li>
                 <strong className=" text-zinc-50">
                   Descrição: {" "}
                 </strong>
                 {product.description}
-              </p>
-              <p>
+              </li>
+              <li>
                 <strong className=" text-zinc-50">
                   Disponibilidade: {" "}
                 </strong>
-                {product.quantity_in_stock} Unidades  disponíveis em estoque</p>
+                {product.quantity_in_stock} Unidades  disponíveis em estoque
+              </li>
               <Separator className="my-5" />
               <div className="flex justify-end px-2 ">
                 <div className="flex flex-col gap-2 text-end">
-                  <p>Preço original: {formatCurrency(product.price)}</p>
-                  <p>Desconto disponível: {product.discount} %</p>
-                  <p>Preço final: {formatCurrency(calculateProducTotalPrice(product))}</p>
-
+                  <p >
+                    <strong className="text-zinc-50 font-medium">Preço original: </strong>
+                    {formatCurrency(product.price)}
+                  </p>
+                  <p>
+                    <strong className="text-zinc-50 font-medium">
+                      Desconto disponível: </strong>
+                    {product.discount} %
+                  </p>
+                  <p>
+                    <strong className="text-zinc-50 font-medium"> Preço final: </strong>
+                    {formatCurrency(calculateProducTotalPrice(product))}
+                  </p>
                 </div>
               </div>
-            </div>
-
+            </ul>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex sm:justify-between  ">
           <div className="space-x-4">
             <Button size={'icon'} variant={"outline"}>
-              <Edit2 size={18} />
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Edit2 size={18} />
+                </DialogTrigger>
+                <DialogDemo />
+              </Dialog>
             </Button>
-            <Button size={'icon'} variant={"default"} onClick={() => setIsOpenDialogDelete(true)}>
+            <Button
+              size={'icon'}
+              variant={"default"}
+              onClick={() => setIsOpenDialogDelete(true)}
+            >
               <Trash size={18} />
             </Button>
           </div>
           <AlertDialogCancel>Fechar</AlertDialogCancel>
-          {/* <AlertDialogAction>Continue</AlertDialogAction> */}
         </AlertDialogFooter>
       </AlertDialogContent>
 

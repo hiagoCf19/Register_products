@@ -40,7 +40,7 @@ const ProductCard = ({ product, loading, setData, setIsLoading }: ProductCartPro
         <AlertDialogHeader>
           <AlertDialogTitle>Informações do produto</AlertDialogTitle>
           <AlertDialogDescription asChild >
-            <ul className="space-y-2">
+            <ul className="space-y-2 text-justify">
               <li>
                 <strong className=" text-zinc-50">
                   Produto:{" "}
@@ -80,7 +80,7 @@ const ProductCard = ({ product, loading, setData, setIsLoading }: ProductCartPro
             </ul>
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter className="flex sm:justify-between  ">
+        <AlertDialogFooter className="flex sm:justify-between flex-col  ">
           <div className="space-x-4">
             <Button size={'icon'} variant={"outline"}>
               <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
@@ -105,7 +105,7 @@ const ProductCard = ({ product, loading, setData, setIsLoading }: ProductCartPro
               <Trash size={18} />
             </Button>
           </div>
-          <AlertDialogCancel>Fechar</AlertDialogCancel>
+          <AlertDialogCancel className="bg-secondary m-5">Fechar</AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
 

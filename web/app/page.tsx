@@ -51,16 +51,16 @@ export default function Home() {
                 <TableHead className="text-zinc-50">Código</TableHead>
                 <TableHead className="text-zinc-50">Nome</TableHead>
                 <TableHead className="text-zinc-50">Preço final</TableHead>
-                <TableHead className="text-right sm:text-start text-zinc-50">Estoque</TableHead>
+                <TableHead className="text-right sm:text-start text-zinc-50 hidden sm:block">Estoque</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filterProducts?.map((product) => (
                 <TableRow key={product.id} className="text-sm">
                   <TableCell className="font-medium pl-6">{product.id}</TableCell>
-                  <TableCell className="text-muted-foreground max-w-[170px] px-0">{product.name}</TableCell>
+                  <TableCell className="text-muted-foreground sm:max-w-[170px] max-w-[200px] text-nowrap text-ellipsis overflow-hidden px-0">{product.name}</TableCell>
                   <TableCell className="text-muted-foreground">{formatCurrency(calculateProducTotalPrice(product))}</TableCell>
-                  <TableCell className="text-right sm:text-start text-muted-foreground">
+                  <TableCell className="text-right sm:text-start text-muted-foreground hidden sm:block">
                     {product.quantity_in_stock} Unidades
                   </TableCell>
                   <TableCell className=" text-right">

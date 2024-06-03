@@ -1,19 +1,15 @@
 package com.test.demo.Service;
-
 import com.test.demo.dto.ProductDataDTO;
-
 import com.test.demo.dto.ProductSoldAmountDTO;
 import com.test.demo.dto.UpdateProductDTO;
 import com.test.demo.exception.ProductNotFoundException;
 import com.test.demo.exception.ProductSoldOutException;
 import com.test.demo.model.Products;
 import com.test.demo.repository.ProductRepository;
-import jakarta.xml.bind.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Objects;
+
 
 
 @Service

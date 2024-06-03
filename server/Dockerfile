@@ -5,7 +5,7 @@ RUN apt-get install openjdk-17-jdk -y
 RUN apt-get install maven -y
 RUN mnv clean install
 
-FROM openjdk:17-jdp-slim
+FROM openjdk:17-jdk-slim
 
 EXPOSE 8080
 

@@ -2,6 +2,7 @@ package com.test.demo.controller;
 
 import com.test.demo.Service.ProductService;
 import com.test.demo.dto.ProductDataDTO;
+import com.test.demo.dto.ProductSoldAmountDTO;
 import com.test.demo.dto.ProductsList;
 import com.test.demo.dto.UpdateProductDTO;
 import jakarta.validation.Valid;
@@ -54,6 +55,12 @@ public class Product {
     @Transactional
     public ResponseEntity putProductDetails(@RequestBody @Valid UpdateProductDTO data){
         productService.updateDetails(data);
+        return ResponseEntity.noContent().build();
+    }
+    @PatchMapping("/sold")
+    @Transactional
+    public ResponseEntity soldProduct(@RequestBody @Valid ProductSoldAmountDTO data){
+        productService.productSoldAmount(data);
         return ResponseEntity.noContent().build();
     }
 

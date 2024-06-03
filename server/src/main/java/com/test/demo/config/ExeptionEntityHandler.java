@@ -3,6 +3,7 @@ package com.test.demo.config;
 import com.test.demo.dto.ErrorBadRequestDTO;
 import com.test.demo.dto.MessageErrorDTO;
 import com.test.demo.exception.ProductNotFoundException;
+import com.test.demo.exception.ProductSoldOutException;
 import com.test.demo.exception.UserAlreadyExistException;
 import com.test.demo.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -29,5 +30,9 @@ public class ExeptionEntityHandler {
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity handleProductNotFound(ProductNotFoundException exception){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageErrorDTO(exception.getMessage()));
+    }
+    @ExceptionHandler(ProductSoldOutException.class)
+    public ResponseEntity handleProductSoldOut(ProductSoldOutException exception){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new MessageErrorDTO(exception.getMessage()));
     }
 }

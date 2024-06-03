@@ -14,14 +14,14 @@ import { toast } from "sonner";
 import { DataApi, getData } from "@/app/helpers/getData";
 import { Products } from "@/app/helpers/format-price";
 import { Loader2 } from "lucide-react";
-interface DialogDemoProps {
+interface EditProductProps {
   product: Products;
   loading: boolean
   setData: Dispatch<SetStateAction<DataApi | undefined>>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsEditDialogOpen: Dispatch<SetStateAction<boolean>>;
 }
-const DialogDemo = ({ product, loading, setData, setIsLoading, setIsEditDialogOpen }: DialogDemoProps) => {
+const EditProduct = ({ product, loading, setData, setIsLoading, setIsEditDialogOpen }: EditProductProps) => {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -48,7 +48,7 @@ const DialogDemo = ({ product, loading, setData, setIsLoading, setIsEditDialogOp
     }
     try {
       setIsLoading(true)
-      const response = await fetch("http://localhost:8080/products/edit",
+      const response = await fetch("https://register-products.onrender.com/products/edit",
         {
           method: "PUT",
           headers: {
@@ -138,4 +138,4 @@ const DialogDemo = ({ product, loading, setData, setIsLoading, setIsEditDialogOp
   );
 }
 
-export default DialogDemo;
+export default EditProduct;

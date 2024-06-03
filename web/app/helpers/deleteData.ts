@@ -11,7 +11,7 @@ export const deletAPI = async (
   try {
     setIsLoading(true);
     const response = await fetch(
-      `http://localhost:8080/products/delete/${id}`,
+      `https://register-products.onrender.com/products/delete/${id}`,
       {
         method: "DELETE",
         headers: {

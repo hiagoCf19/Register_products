@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/alert-dialog"
 import {
   Dialog,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 
 import { Products, calculateProducTotalPrice, formatCurrency } from "../app/helpers/format-price";
@@ -20,7 +19,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { AlertDialog } from "@radix-ui/react-alert-dialog";
 import { deletAPI } from "@/app/helpers/deleteData";
 import { DataApi } from "@/app/helpers/getData";
-import DialogDemo from "./dialog-demo";
+import EditProduct from "./edit-product-dialog";
 interface ProductCartProps {
   product: Products;
   loading: boolean
@@ -88,7 +87,7 @@ const ProductCard = ({ product, loading, setData, setIsLoading }: ProductCartPro
                 <Button size={'icon'} variant={'outline'} onClick={() => setIsEditDialogOpen(true)}>
                   <Edit2 size={18} />
                 </Button>
-                <DialogDemo
+                <EditProduct
                   loading={loading}
                   product={product}
                   setData={setData}

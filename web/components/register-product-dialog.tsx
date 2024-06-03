@@ -30,19 +30,20 @@ const RegisterProduct = ({ setData, setIsLoading }: RegisterProductProps) => {
   const [discount, setDiscount] = useState('')
   const [quantity_in_stock, setQuantity_in_stock] = useState('')
   const [loading, setLoading] = useState(false)
-
+  const regex = /[^\d]/g;
   const createProduct = async () => {
     const data = {
       name: name,
       description: description,
       price: price.replace(",", "."),
-      discount: discount.replace("%", ""),
-      quantity_in_stock: quantity_in_stock
+      discount: discount.replace(regex, ""),
+      quantity_in_stock: quantity_in_stock.replace(regex, "")
     }
+
     try {
       setLoading(true)
 
-      const response = await fetch("http://localhost:8080/products/add",
+      const response = await fetch("https://register-products.onrender.com/products/add",
         {
           method: "POST",
           headers: {
@@ -65,6 +66,7 @@ const RegisterProduct = ({ setData, setIsLoading }: RegisterProductProps) => {
         error.map((e: Validation) => {
           toast.error(`O campo ${e.field} ${e.message}`)
         })
+        console.log(error)
       }
     } catch (error) {
       console.error("Error:", error);
@@ -98,6 +100,7 @@ const RegisterProduct = ({ setData, setIsLoading }: RegisterProductProps) => {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
               placeholder="Nome do produto"
             />
           </div>
@@ -107,6 +110,7 @@ const RegisterProduct = ({ setData, setIsLoading }: RegisterProductProps) => {
                 Preço
               </label>
               <Input
+                required
                 id="price"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
@@ -119,6 +123,8 @@ const RegisterProduct = ({ setData, setIsLoading }: RegisterProductProps) => {
               </label>
               <Input
                 id="discount"
+                required
+
                 value={discount}
                 onChange={(e) => setDiscount(e.target.value)}
                 placeholder=" ex: 15%"
@@ -131,6 +137,7 @@ const RegisterProduct = ({ setData, setIsLoading }: RegisterProductProps) => {
             </label>
             <Input
               id="quantity_in_stock"
+              required
               value={quantity_in_stock}
               onChange={(e) => setQuantity_in_stock(e.target.value)}
               placeholder="Quantidade disponível para venda no estoque"
@@ -142,6 +149,7 @@ const RegisterProduct = ({ setData, setIsLoading }: RegisterProductProps) => {
             </label>
             <Textarea
               id="description"
+              required
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Descreva o produto..."

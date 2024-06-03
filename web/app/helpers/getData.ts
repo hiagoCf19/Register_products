@@ -10,7 +10,9 @@ export async function getData(
   setIsLoading: Dispatch<SetStateAction<boolean>>
 ) {
   try {
-    const response = await fetch(`http://localhost:8080/${endpoint}`);
+    const response = await fetch(
+      `https://register-products.onrender.com/${endpoint}`
+    );
     const result = await response.json();
     setData(result);
   } catch (error) {

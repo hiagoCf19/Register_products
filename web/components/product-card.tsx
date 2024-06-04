@@ -36,76 +36,83 @@ const ProductCard = ({ product, loading, setData, setIsLoading }: ProductCartPro
   }
   return (
     <>
-      <AlertDialogContent>
-        <AlertDialogHeader>
+      <AlertDialogContent className="h-screen sm:h-auto overflow-hidden
+      ">
+        <AlertDialogHeader >
           <AlertDialogTitle>Informações do produto</AlertDialogTitle>
-          <AlertDialogDescription asChild >
-            <ul className="space-y-2 text-justify">
-              <li>
-                <strong className=" text-zinc-50">
-                  Produto:{" "}
-                </strong>
-                {product.name}
-              </li>
-              <li>
-                <strong className=" text-zinc-50">
-                  Descrição: {" "}
-                </strong>
-                {product.description}
-              </li>
-              <li>
-                <strong className=" text-zinc-50">
-                  Disponibilidade: {" "}
-                </strong>
-                {product.quantity_in_stock} Unidades  disponíveis em estoque
-              </li>
-              <Separator className="my-5" />
-              <div className="flex justify-end px-2 ">
-                <div className="flex flex-col gap-2 text-end">
-                  <p >
-                    <strong className="text-zinc-50 font-medium">Preço original: </strong>
-                    {formatCurrency(product.price)}
-                  </p>
-                  <p>
-                    <strong className="text-zinc-50 font-medium">
-                      Desconto disponível: </strong>
-                    {product.discount} %
-                  </p>
-                  <p>
-                    <strong className="text-zinc-50 font-medium"> Preço final: </strong>
-                    {formatCurrency(calculateProducTotalPrice(product))}
-                  </p>
-                </div>
-              </div>
-            </ul>
-          </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter className="flex sm:justify-between flex-col  ">
-          <div className="space-x-4">
-            <Button size={'icon'} variant={"outline"}>
-              <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-                <Button size={'icon'} variant={'outline'} onClick={() => setIsEditDialogOpen(true)}>
-                  <Edit2 size={18} />
-                </Button>
-                <EditProduct
-                  loading={loading}
-                  product={product}
-                  setData={setData}
-                  setIsLoading={setIsLoading}
+        <AlertDialogDescription asChild>
+          <ul className="space-y-2 text-justify overflow-y-scroll [&::-webkit-scrollbar]:hidden">
+            <li>
+              <strong className=" text-zinc-50">
+                Produto:{" "}
+              </strong>
+              {product.name}
+            </li>
+            <li>
+              <strong className=" text-zinc-50">
+                Descrição: {" "}
+              </strong>
 
-                  setIsEditDialogOpen={setIsEditDialogOpen}
-                />
-              </Dialog>
-            </Button>
-            <Button
-              size={'icon'}
-              variant={"default"}
-              onClick={() => setIsOpenDialogDelete(true)}
-            >
-              <Trash size={18} />
-            </Button>
+              {product.description}
+
+            </li>
+            <li>
+              <strong className=" text-zinc-50">
+                Disponibilidade: {" "}
+              </strong>
+              {product.quantity_in_stock} Unidades  disponíveis em estoque
+            </li>
+            <Separator className="my-5" />
+          </ul>
+
+        </AlertDialogDescription>
+        <AlertDialogFooter className="flex flex-col sm:flex-col">
+          <div className="flex justify-end ">
+            <div className="flex flex-col gap-2 text-end">
+              <p className="text-sm text-muted-foreground">
+                <strong className="text-zinc-50 font-medium">Preço original: </strong>
+                {formatCurrency(product.price)}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                <strong className="text-zinc-50 font-medium">
+                  Desconto disponível: </strong>
+                {product.discount} %
+              </p>
+              <p className="text-sm text-muted-foreground">
+                <strong className="text-zinc-50 font-medium"> Preço final: </strong>
+                {formatCurrency(calculateProducTotalPrice(product))}
+              </p>
+            </div>
           </div>
-          <AlertDialogCancel className="bg-secondary m-5">Fechar</AlertDialogCancel>
+          <div className="flex justify-between sm:mt-3 items-center">
+            <div className="space-x-4">
+              <Button size={'icon'} variant={"outline"}>
+                <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+                  <Button size={'icon'} variant={'outline'} onClick={() => setIsEditDialogOpen(true)}>
+                    <Edit2 size={18} />
+                  </Button>
+                  <EditProduct
+                    loading={loading}
+                    product={product}
+                    setData={setData}
+                    setIsLoading={setIsLoading}
+
+                    setIsEditDialogOpen={setIsEditDialogOpen}
+                  />
+                </Dialog>
+              </Button>
+              <Button
+                size={'icon'}
+                variant={"default"}
+                onClick={() => setIsOpenDialogDelete(true)}
+              >
+                <Trash size={18} />
+              </Button>
+            </div>
+            <AlertDialogCancel className="bg-secondary m-5">Fechar</AlertDialogCancel>
+          </div>
+
         </AlertDialogFooter>
       </AlertDialogContent>
 

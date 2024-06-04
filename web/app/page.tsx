@@ -35,10 +35,10 @@ export default function Home() {
   return (
     <div className=" sm:pl-44">
       <div className=" sm:w-[90%]">
-        <div className="flex justify-between pt-4">
-          <h1 className="font-semibold text-xl">Produtos:</h1>
-          <div className="flex items-center gap-2">
-            <Input type="search" className="focus-visible:ring-1 p-4" placeholder="Buscar produto" value={search} onChange={(e) => setSearch(e.target.value)} />
+        <div className="flex justify-between pt-4 px-2">
+          <h1 className="font-semibold text-xl hidden sm:block">Produtos:</h1>
+          <div className="flex items-center gap-2 w-full sm:w-fit pb-2">
+            <Input type="search" className="focus-visible:ring-1 p-2" placeholder="Buscar produto" value={search} onChange={(e) => setSearch(e.target.value)} />
             <Button variant={"destructive"} className="p-2">
               <Search size={22} />
             </Button>
@@ -46,8 +46,8 @@ export default function Home() {
         </div>
         <div className=" [&::-webkit-scrollbar]:hidden overflow-y-scroll max-h-[760px]">
           <Table >
-            <TableHeader >
-              <TableRow className="text-xs sm:text-sm">
+            <TableHeader className="">
+              <TableRow className="text-sm sm:text-sm">
                 <TableHead className="text-zinc-50">Código</TableHead>
                 <TableHead className="text-zinc-50">Nome</TableHead>
                 <TableHead className="text-zinc-50">Preço final</TableHead>
@@ -58,8 +58,8 @@ export default function Home() {
               {filterProducts?.map((product) => (
                 <TableRow key={product.id} className="text-sm">
                   <TableCell className="font-medium pl-6">{product.id}</TableCell>
-                  <TableCell className="text-muted-foreground sm:max-w-[170px] max-w-[200px] text-nowrap text-ellipsis overflow-hidden px-0">{product.name}</TableCell>
-                  <TableCell className="text-muted-foreground">{formatCurrency(calculateProducTotalPrice(product))}</TableCell>
+                  <TableCell className="text-muted-foreground sm:max-w-[170px] max-w-[150px] text-nowrap text-ellipsis overflow-hidden px-0 text-sm">{product.name}</TableCell>
+                  <TableCell className="text-muted-foreground text-sm">{formatCurrency(calculateProducTotalPrice(product))}</TableCell>
                   <TableCell className="text-right sm:text-start text-muted-foreground hidden sm:block">
                     {product.quantity_in_stock} Unidades
                   </TableCell>
@@ -84,16 +84,17 @@ export default function Home() {
           </Table >
         </div>
         {filterProducts?.length === 0 ?
-          <div className="flex justify-center flex-col text-center py-5">
+          <div className="flex justify-center flex-col text-center sm:py-5">
             <p className="text-2xl font-medium">Nenhum resultado encontrado para "{search}".</p>
             <span className="text-muted-foreground text-center text-sm"> Verifique se você digitou corretamente e tente novamente!</span>
           </div>
           : null}
-        <div className="flex justify-center py-5">
-          {loading && (<Loader2 className="animate-spin text-muted-foreground" />)}
+        <div className="flex justify-center sm:py-5">
+          {loading && (<Loader2 className="animate-spin text-muted-foreground " />)}
         </div>
         <RegisterProduct setIsLoading={setLoading} setData={setData} />
       </div>
+
 
     </div>
   )

@@ -2,10 +2,7 @@ package com.test.demo.config;
 
 import com.test.demo.dto.ErrorBadRequestDTO;
 import com.test.demo.dto.MessageErrorDTO;
-import com.test.demo.exception.ProductNotFoundException;
-import com.test.demo.exception.ProductSoldOutException;
-import com.test.demo.exception.UserAlreadyExistException;
-import com.test.demo.exception.UserNotFoundException;
+import com.test.demo.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,6 +13,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExeptionEntityHandler {
     @ExceptionHandler(UserAlreadyExistException.class)
     public ResponseEntity handleUserAlreadyExist(UserAlreadyExistException exception){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new MessageErrorDTO(exception.getMessage()));
+    }
+    @ExceptionHandler(ProductAlreadyExistException.class)
+    public ResponseEntity handleProductAlreadyExist(ProductAlreadyExistException exception){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new MessageErrorDTO(exception.getMessage()));
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -35,4 +36,5 @@ public class ExeptionEntityHandler {
     public ResponseEntity handleProductSoldOut(ProductSoldOutException exception){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new MessageErrorDTO(exception.getMessage()));
     }
+
 }

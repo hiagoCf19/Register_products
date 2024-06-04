@@ -1,7 +1,6 @@
 package com.test.demo.Service;
-import com.test.demo.dto.ProductDataDTO;
-import com.test.demo.dto.ProductSoldAmountDTO;
-import com.test.demo.dto.UpdateProductDTO;
+import com.test.demo.dto.*;
+import com.test.demo.exception.ProductAlreadyExistException;
 import com.test.demo.exception.ProductNotFoundException;
 import com.test.demo.exception.ProductSoldOutException;
 import com.test.demo.model.Products;
@@ -9,7 +8,8 @@ import com.test.demo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -18,6 +18,11 @@ public class ProductService {
     private ProductRepository productRepository;
 
     public Products createNewProduct(ProductDataDTO data){
+        boolean exists = getAllProducts().stream()
+                .anyMatch(p -> Objects.equals(p.getName(), data.name()));
+        if(exists){
+            throw new ProductAlreadyExistException("Já existe um produto cadastrado com este nome!");
+        }
         Products product= new Products();
         product.setName(data.name());
         product.setDescription(data.description());

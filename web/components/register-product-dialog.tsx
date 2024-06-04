@@ -83,7 +83,15 @@ const RegisterProduct = ({ setData, setIsLoading }: RegisterProductProps) => {
 
   return (
     <Dialog open={registerDialogOpen} onOpenChange={setRegisterDialogOpen}>
-      <Button variant="secondary" onClick={() => setRegisterDialogOpen(true)}>Registrar novo produto</Button>
+      <div className="w-full flex justify-center sm:block px-4">
+        <Button
+          variant="secondary"
+          onClick={() => setRegisterDialogOpen(true)}
+          className="w-full sm:w-auto"
+        >
+          Registrar novo produto
+        </Button>
+      </div>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Registrar produto</DialogTitle>
